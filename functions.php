@@ -15,6 +15,12 @@ function themeConfig($form) {
 		);
     $form->addInput($viewMode);
 }
+/**
+ * 格式化时间
+ * @param int $time 时间戳
+ * @param string $str 显示格式
+ * @return string
+ */
 function formatTime($time,$str='Y-m-d'){
     isset($str)?$str:$str='m-d';
     $way = time() - $time;
@@ -34,9 +40,12 @@ function formatTime($time,$str='Y-m-d'){
     }
     return $r;
 }
-function showArchives($obj){
+/**
+ * 内容归档
+ */
+function showArchives(){
     $stat = Typecho_Widget::widget('Widget_Stat');
-    $obj->widget('Widget_Contents_Post_Recent', 'pageSize='.$stat->publishedPostsNum)->to($archives);
+    Typecho_Widget::widget('Widget_Contents_Post_Recent', 'pageSize='.$stat->publishedPostsNum)->to($archives);
     $year=0; $mon=0; $i=0; $j=0;
     $output = '<div class="archives">';
     while($archives->next()){
@@ -56,26 +65,28 @@ function showArchives($obj){
     $output .= '</ul></div></div>';
     echo $output;
 }
-function showTagCloud($obj,$options=array()){
+/**
+ * 显示标签
+ * @param array $options parse:显示格式;where:查询条件
+ */
+function showTagCloud($options=array()){
     $defautlOptions = array(
-        'wrapDiv'=>'ul',
-        'wrapClass'=>'tag-list',
         'parse'=>'<li><a href="{permalink}" title="{count}个话题">{name}({count})</a></li>',
         'where'=>'sort=mid&ignoreZeroCount=1&desc=0&limit=30'
     );
     $options = !empty($options) ? array_merge($defautlOptions,$options) : $defautlOptions;
-    $obj->widget('Widget_Metas_Tag_Cloud', $options['where'])->to($tags);
+    Typecho_Widget::widget('Widget_Metas_Tag_Cloud', $options['where'])->to($tags);
     $output = '';
     if($tags->have()){
-        $output .='<'.$options['wrapDiv'].' class="'.$options['wrapClass'].'">';
         while ($tags->next()){
             $output .= str_replace(array('{permalink}','{count}','{name}'), array($tags->permalink,$tags->count,$tags->name), $options['parse']);
         }
-        $output .='</'.$options['wrapDiv'].'>';
     }
     echo $output;
 }
-
+/**
+ * 重写评论显示函数
+ */
 function threadedComments($comments, $options){
     $commentClass = '';
     if ($comments->authorId) {

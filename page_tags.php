@@ -10,7 +10,9 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
     <article class="post preview" itemscope itemtype="http://schema.org/BlogPosting">
         <h1 class="post-title" itemprop="name headline"><?php $this->title() ?></h1>
         <div class="post-content" itemprop="articleBody">
-            <?php showTagCloud($this,array('where'=>'sort=mid&ignoreZeroCount=1&desc=0'));?>
+            <ul class="tag-list">
+                <?php showTagCloud(array('where'=>'sort=mid&ignoreZeroCount=1&desc=0'));?>
+            </ul>
         </div>
     </article>
 </div><!-- end #main-->

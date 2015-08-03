@@ -4,13 +4,15 @@
  * 
  * @package JianShu
  * @author 绛木子
- * @version 1.0.0
+ * @version 1.1.0
  * @link http://lixianhua.com
  * ----------------------------------------
  * update log
  * ----------------------------------------
  * 2015.08.03
- * ajax 
+ * 导航单字添加设置项
+ * 优化functions中方法
+ * 添加AJAX支持（前端实现）
  */
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
