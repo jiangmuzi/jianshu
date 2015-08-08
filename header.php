@@ -12,10 +12,8 @@
             'tag'       =>  _t('标签 %s 下的文章'),
             'author'    =>  _t('%s 发布的文章')
         ), '', ' - '); ?><?php $this->options->title(); ?></title>
-    <!-- 使用url函数转换相关路径 -->
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?php $this->options->themeUrl('base.css'); ?>">
-    <link rel="stylesheet" href="<?php $this->options->themeUrl('style.css'); ?>">
+    <link rel="stylesheet" href="<?php $this->options->themeUrl('css/icon.css'); ?>">
+    <link rel="stylesheet" href="<?php $this->options->themeUrl('css/style.css'); ?>">
 	
     <!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -62,9 +60,9 @@
         <?php endwhile; ?> 
 	</div> 
 </div>
-<div class="row-fluid">
+<div class="wrapper">
 <?php if(!$this->is('post')): ?>
-<div class="span3 sidebar">
+<div class="sidebar">
     <div class="cover-img" style="background-image: url(<?php if ($this->options->bgPhoto){$photo = explode(',',$this->options->bgPhoto);echo $photo[array_rand($photo,1)];}else{$this->options->themeUrl('img/defaultBg.jpg');}?>)"></div>
         <div class="bottom-block">
           <h1><?php $this->options->title(); ?></h1>
@@ -73,9 +71,9 @@
 </div>
 <?php endif; ?>
 <?php if($this->is('post')): ?>
-<div class="span7 offset2 main">
+<div class="main single">
 <?php else: ?>
-<div class="span7 offset3 main">
+<div class="main">
 <?php endif; ?>
     <div class="page-title clearfix"> 
       <ul class="navigation clearfix"> 

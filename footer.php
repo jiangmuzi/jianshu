@@ -28,21 +28,27 @@
 </div>
 <?php $this->footer(); ?>
 <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="<?php $this->options->themeUrl('common.js'); ?>"></script>
+<script src="<?php $this->options->themeUrl('js/common.js'); ?>"></script>
 <?php if ($this->is('post')) :?>
 <script src="http://apps.bdimg.com/libs/prettify/r298/prettify.min.js"></script>
+<script src="<?php $this->options->themeUrl('js/qrcode.js'); ?>"></script>
 <script>
 $(function(){
 	$(window).load(function(){
 	     $("pre code").addClass("prettyprint");
 	     prettyPrint();
 	});
+	var qrcode = new QRCode(document.getElementById("qrcode-img"), {
+        width : 96,//设置宽高
+        height : 96
+    });
+	qrcode.makeCode("<?php $this->permalik();?>");
 })
 </script>
 <?php endif;?>
 <script>
 window.isArchive = <?php if($this->is('index') || $this->is('archive')){echo 'true';}else{echo 'false';}?>;
 </script>
-<?php if ($this->options->siteStat): ?><div class="hide"><?php $this->options->siteStat(); ?></div><?php endif; ?>
+<?php if ($this->options->siteStat): ?><?php $this->options->siteStat(); ?><?php endif; ?>
 </body>
 </html>
