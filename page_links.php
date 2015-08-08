@@ -10,11 +10,14 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
     <article class="post preview" itemscope itemtype="http://schema.org/BlogPosting">
         <h1 class="post-title" itemprop="name headline"><?php $this->title() ?></h1>
         <div class="post-content" itemprop="articleBody">
-            <ul class="tag-list flinks">
-                <?php Links_Plugin::output(null,0,'');?>
-            </ul>
+            <?php $this->content();?>
         </div>
+        <h1 class="post-title"><?php _e('友情链接'); ?></h1>
+        <ul class="tag-list flinks">
+            <?php Links_Plugin::output(null,0,'');?>
+        </ul>
     </article>
+    <?php $this->need('comments.php'); ?>
 </div><!-- end #main-->
 
 <?php $this->need('footer.php'); ?>

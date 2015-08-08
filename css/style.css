@@ -163,7 +163,30 @@ input[type="text"],input[type="email"],input[type="url"],input[type="password"],
 		page-break-after: avoid
 	}
 }
-
+pre,code {
+	background:#F3F3F0;
+	font-family:Menlo,Monaco,Consolas,"Lucida Console","Courier New",monospace;
+	font-size:.92857em;
+}
+code {
+	padding:2px 4px;
+	color:#B94A48;
+}
+pre {
+	padding:10px;
+	border:1px solid #ccc;
+	overflow:auto;
+	max-height:400px;
+}
+pre code {
+	padding:3px;
+	color:#444;
+}
+blockquote {
+	margin:1em 1.5em;
+	padding-left:1.5em;
+	border-left:4px solid #f2f2f2;
+}
 body {
 	margin: 0;
 	font-family: Helvetica,Arial,"Hiragino Sans GB",sans-serif;
@@ -833,10 +856,6 @@ body {
 	float:left;
 	margin-right:5px;
 }
-.post-content ul,.post-content ol,.post-content li{
-	list-style:disc;
-	margin-left:20px;
-}
 .post-content h2,.comment-content h2 {
 	font-size:1.28571em;
 }
@@ -1064,20 +1083,35 @@ ul.tag-list{
 	text-align:center;
 	overflow:hidden;
 }
+
+
 .page-navigator a {
 	display:inline-block;
 	padding:0 20px;
 	height:32px;
 	line-height:32px;
-	background:#10A64F;
-	color:#fff!important;
+	background-color:#10A64F;
+	color:#fff;
 }
-
 .page-navigator a:hover {
 	background:#0c843f;
 	text-decoration:none;
 }
-
+.page-navigator li{
+	float:left;
+	list-style:none;
+}
+.page-navigator li a{
+	background-color:#F6F6F3;
+	color:#404040;
+}
+.page-navigator li a:hover{
+	color:#fff;
+}
+.page-navigator li.current a{
+	background-color:#0c843f;
+	color:#fff;
+}
 /* footer */
 footer {
 	margin: 8px 0 10px 25%;
@@ -1310,6 +1344,9 @@ body.night-mode .page-title>ul a:hover {
 .night-mode .comment-list li,.night-mode .comment-list .respond,.night-mode #comment-form textarea{
 	border-color: #2F2F2F;
 }
+.night-mode .comment-list li.comment-level-even{
+	background-color:#3F3F3F;
+}
 .night-mode .search-form input:focus,.night-mode #comment-form textarea:focus{
 	border-color: #10A64F;
 }
@@ -1320,4 +1357,10 @@ body.night-mode .page-title>ul a:hover {
 .night-mode .fixed-btn,.night-mode .fixed-btn a{
 	background-color: #3F3F3F;
 	border-color: #2F2F2F;
+}
+.night-mode .page-navigator li a{
+	background-color:#555;
+}
+.night-mode .page-navigator li.current a{
+	background-color:#10A64F;
 }

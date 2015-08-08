@@ -28,10 +28,10 @@
 </div>
 <?php $this->footer(); ?>
 <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="<?php $this->options->themeUrl('js/common.js'); ?>"></script>
+<script src="<?php TeQiniu_Plugin::cdn('js/common.js'); ?>"></script>
 <?php if ($this->is('post')) :?>
 <script src="http://apps.bdimg.com/libs/prettify/r298/prettify.min.js"></script>
-<script src="<?php $this->options->themeUrl('js/qrcode.js'); ?>"></script>
+<script src="<?php TeQiniu_Plugin::cdn('js/qrcode.js'); ?>"></script>
 <script>
 $(function(){
 	$(window).load(function(){

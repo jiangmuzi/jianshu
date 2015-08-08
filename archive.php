@@ -10,11 +10,11 @@
     		    <li><?php _e('<i class="fa fa-book"></i> '); ?><?php $this->category(','); ?></li>
     		    <li><?php _e('<i class="fa fa-clock-o"></i> '); ?><time datetime="<?php $this->date('c'); ?>" itemprop="datePublished"><?php echo formatTime($this->created); ?></time></li>
     			<li><?php _e('<i class="fa fa-eye"></i> 阅读 '); ?><?php $this->viewsNum(); ?></li>
-    			<li itemprop="interactionCount"><a itemprop="discussionUrl" href="<?php $this->permalink() ?>#comments"><?php $this->commentsNum('<i class="fa fa-comments-o"></i> 评论 %d'); ?></a></li>
+    			<li itemprop="interactionCount"><a itemprop="discussionUrl" href="<?php $this->permalink() ?>#<?php $this->respondId(); ?>"><?php $this->commentsNum('<i class="fa fa-comments-o"></i> 评论 %d'); ?></a></li>
     		</ul>
             <?php if(!empty($this->options->viewMode)): ?>
         	<div class="post-content" itemprop="articleBody">
-    			<?php $this->content('- 阅读剩余部分 -'); ?>
+    			<?php $this->description(); ?>
     		</div>
     		<?php endif; ?>
         </article>
