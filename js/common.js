@@ -9,19 +9,26 @@ $(function(){
 		setReadMode();
 	};
 	
-	$(window).scroll(function(){
-		if($(this).scrollTop()>180) {
-			$('.fixed-btn .go-top').fadeIn();
-		}else{
-			$('.fixed-btn .go-top').fadeOut();
-		}
+	$(window).bind("scroll", backToTopFun);
+	
+	$('.back-to-top').click(function() {
+        $("html, body").animate({ scrollTop: 0 }, 120);
+        return false;
 	});
-	$('.go-top').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);return false;});
 	
 	if(window.isArchive){
 		$(window).bind("scroll", ajaxLoadArchives);
 	}
+	backToTopFun();
 });
+function backToTopFun() {
+    var st = $(document).scrollTop(), winh = $(window).height(),backToTopEle = $('.back-to-top');
+    (st > 120)? backToTopEle.show(): backToTopEle.hide();
+    //IE6下的定位
+    if (!window.XMLHttpRequest) {
+        backToTopEle.css("top", st + winh - 166);
+    }
+};
 function ajaxLoadArchives(){
 	var st = $(document).scrollTop(), sb = $(document).height() - $(window).height();
 	if(st+160>sb){
@@ -59,6 +66,7 @@ var ajaxLoad = {
 function setReadMode(mode){
 	var btn = $('.set-view-mode');
 	mode = mode===undefined ? getCookie('read-mode') : mode;
+	//console.log(mode);
     if(mode=='day'){
     	$('body').addClass('night-mode');
     	btn.data('mode','night').find('i').attr('class','fa fa-sun-o');
@@ -68,18 +76,28 @@ function setReadMode(mode){
 			btn.data('mode','day').find('i').attr('class','fa fa-moon-o');
 		}
 	}
-    setCookie('read-mode',mode);
+    setCookie('read-mode',mode,86400);
 }
-function setCookie(name,value){  
-    var Days = 30;  
-    var exp  = new Date();  
-    exp.setTime(exp.getTime() + Days*24*60*60*1000);  
-    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();  
+function setCookie(name,value,expires){  
+    expires = new Date(+new Date + 1000 * 60 * 60 * 24 * expires);
+    expires = ';expires=' + expires.toGMTString();
+    path = ';path=/';
+    document.cookie = name+"="+escape(value)+expires+path;   //转码并赋值
 }
-function getCookie(name) {
-    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-    if(arr=document.cookie.match(reg))
-        return unescape(arr[2]); 
-    else 
-        return null; 
+function getCookie(name) { 
+	var nameEQ = name + "=";    
+	var ca = document.cookie.split(';');//把cookie分割成组    
+	for(var i=0;i < ca.length;i++) {    
+		var c = ca[i];//取得字符串    
+		while (c.charAt(0)==' ') {//判断一下字符串有没有前导空格    
+			c = c.substring(1,c.length);//有的话，从第二位开始取    
+		}    
+		if (c.indexOf(nameEQ) == 0) {//如果含有我们要的name    
+			return unescape(c.substring(nameEQ.length,c.length));//解码并截取我们要值    
+		}    
+	}    
+	return false;
+}
+function delCookie(name){  
+	setCookie(name,'',-1);
 }

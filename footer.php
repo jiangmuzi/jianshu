@@ -1,7 +1,7 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
     </div>
 </div>
-<footer <?php if($this->is('post')): ?>class="single"<?php endif; ?>> 
+<footer> 
    <div class="footer-inner"> 
     <p>
 		<?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
@@ -19,19 +19,18 @@
         <?php endif; ?>
 	</p> 
    </div> 
-  </footer>
+</footer>
 <div class="fixed-btn">
-    <a class="go-top" href="#" title="返回顶部"><i class="fa fa-chevron-up"></i></a>
+    <a class="back-to-top" href="#" title="返回顶部"><i class="fa fa-chevron-up"></i></a>
      <?php if($this->is('post')): ?>
     <a class="go-comments" href="#comments" title="评论"><i class="fa fa-comments"></i></a>
     <?php endif; ?>
 </div>
 <?php $this->footer(); ?>
-<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="<?php TeQiniu_Plugin::cdn('js/common.js'); ?>"></script>
+<script src="<?php $this->options->themeUrl('js/common.js'); ?>"></script>
 <?php if ($this->is('post')) :?>
 <script src="http://apps.bdimg.com/libs/prettify/r298/prettify.min.js"></script>
-<script src="<?php TeQiniu_Plugin::cdn('js/qrcode.js'); ?>"></script>
+<script src="<?php $this->options->themeUrl('js/qrcode.js'); ?>"></script>
 <script>
 $(function(){
 	$(window).load(function(){
@@ -42,7 +41,7 @@ $(function(){
         width : 96,//设置宽高
         height : 96
     });
-	qrcode.makeCode("<?php $this->permalik();?>");
+	qrcode.makeCode("<?php $this->permalink();?>");
 })
 </script>
 <?php endif;?>

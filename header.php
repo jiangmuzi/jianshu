@@ -13,17 +13,17 @@
             'author'    =>  _t('%s 发布的文章')
         ), '', ' - '); ?><?php $this->options->title(); ?></title>
     <link rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?php TeQiniu_Plugin::cdn('css/style.css');//$this->options->themeUrl('css/style.css'); ?>">
+    <link rel="stylesheet" href="<?php $this->options->themeUrl('css/style.css');//$this->options->themeUrl('css/style.css'); ?>">
 	
     <!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="http://cdn.staticfile.org/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- 通过自有函数输出HTML头部信息 -->
     <?php $this->header(); ?>
 </head>
-<body>
+<body <?php if($this->is('post')): ?>class="single"<?php endif; ?>>
 <!--[if lt IE 8]>
     <div class="browsehappy" role="dialog"><?php _e('当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>'); ?>.</div>
 <![endif]-->
@@ -61,20 +61,14 @@
 	</div> 
 </div>
 <div class="wrapper">
-<?php if(!$this->is('post')): ?>
 <div class="sidebar">
     <div class="cover-img" style="background-image: url(<?php if ($this->options->bgPhoto){$photo = explode(',',$this->options->bgPhoto);echo $photo[array_rand($photo,1)];}else{$this->options->themeUrl('img/defaultBg.jpg');}?>)"></div>
-        <div class="bottom-block">
-          <h1><?php $this->options->title(); ?></h1>
-          <p><?php $this->options->description(); ?></p>
+    <div class="bottom-block">
+      <h1><?php $this->options->title(); ?></h1>
+      <p><?php $this->options->description(); ?></p>
     </div>
 </div>
-<?php endif; ?>
-<?php if($this->is('post')): ?>
-<div class="main single">
-<?php else: ?>
 <div class="main">
-<?php endif; ?>
     <div class="page-title clearfix"> 
       <ul class="navigation clearfix"> 
        <li><a href="<?php $this->options->siteUrl(); ?>"><?php _e('首页'); ?></a> &raquo;</li>

@@ -10,9 +10,13 @@
  * update log
  * ----------------------------------------
  * 2015.08.03
+ * ----------
  * 导航单字添加设置项
  * 优化functions中方法
  * 添加AJAX支持（前端实现）
+ * ----------------------------------------
+ * 2015.08.11
+ * ----------
  */
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
@@ -21,14 +25,17 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 <div id="main-container" class="main-container">
 <?php while($this->next()): ?>
     <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-		<h2 class="post-title" itemprop="name headline"><a itemtype="url" href="<?php $this->permalink() ?>"><?php $this->title() ?></a></h2>
-        <ul class="post-meta clearfix">
+		<?php if(!empty($this->options->listStyle) && in_array('thumb',$this->options->listStyle)): ?>
+		  <?php showThumb($this);?>
+		<?php endif; ?>
+		<ul class="post-meta">
 		    <li><?php _e('<i class="fa fa-book"></i> '); ?><?php $this->category(','); ?></li>
 		    <li><?php _e('<i class="fa fa-clock-o"></i> '); ?><time datetime="<?php $this->date('c'); ?>" itemprop="datePublished"><?php echo formatTime($this->created); ?></time></li>
-			<li><?php _e('<i class="fa fa-eye"></i> 阅读 '); ?><?php $this->viewsNum(); ?></li>
+		      	<li><?php _e('<i class="fa fa-eye"></i> 阅读 '); ?><?php $this->viewsNum(); ?></li>
 			<li itemprop="interactionCount"><a itemprop="discussionUrl" href="<?php $this->permalink() ?>#<?php $this->respondId(); ?>"><?php $this->commentsNum('<i class="fa fa-comments-o"></i> 评论 %d'); ?></a></li>
 		</ul>
-        <?php if(!empty($this->options->viewMode)): ?>
+		<h2 class="post-title" itemprop="name headline"><a itemtype="url" href="<?php $this->permalink() ?>"><?php $this->title() ?></a></h2>
+        <?php if(!empty($this->options->listStyle) && in_array('excerpt',$this->options->listStyle)): ?>
     	<div class="post-content" itemprop="articleBody">
 			<?php $this->description(); ?>
 		</div>

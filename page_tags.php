@@ -11,10 +11,9 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
         <h1 class="post-title" itemprop="name headline"><?php $this->title() ?></h1>
         <div class="post-content" itemprop="articleBody">
             <ul class="tag-list">
-                <?php showTagCloud(array('where'=>'sort=mid&ignoreZeroCount=1&desc=0'));?>
+                <?php showTagCloud('<li><a href="{permalink}">{name}({count})</a></li>',0,'count',1);?>
             </ul>
         </div>
     </article>
 </div><!-- end #main-->
-
 <?php $this->need('footer.php'); ?>

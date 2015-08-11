@@ -4,17 +4,105 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 function themeConfig($form) {
     $logoText = new Typecho_Widget_Helper_Form_Element_Text('logoText', NULL, NULL, _t('网站文字LOGO'), _t('网站文字LOGO，单个文字;为空时取网站标题第一个文字'));
     $form->addInput($logoText);
+    
     $icpNum = new Typecho_Widget_Helper_Form_Element_Text('icpNum', NULL, NULL, _t('网站备案号'), _t('在这里填入网站备案号'));
     $form->addInput($icpNum);
+    
     $siteStat = new Typecho_Widget_Helper_Form_Element_Textarea('siteStat', NULL, NULL, _t('统计代码'), _t('在这里填入网站统计代码'));
     $form->addInput($siteStat);
+    
     $bgPhoto = new Typecho_Widget_Helper_Form_Element_Text('bgPhoto', NULL, NULL, _t('网站背景图'), _t('在这里填入背景图网址'));
     $form->addInput($bgPhoto);
-    $viewMode = new Typecho_Widget_Helper_Form_Element_Checkbox('viewMode',
-    		array('full'=>'完整模式'),'',_t('列表样式'),_t('列表将显示为：标题+内容')
-		);
-    $form->addInput($viewMode);
+    
+    //附件源地址
+    $src_address = new Typecho_Widget_Helper_Form_Element_Text('src_add', NULL, NULL, _t('替换前地址'), _t('即你的附件存放地址，如http://www.yourblog.com/usr/uploads/'));
+    $form->addInput($src_address);
+    //替换后地址
+    $cdn_address = new Typecho_Widget_Helper_Form_Element_Text('cdn_add', NULL, NULL, _t('替换后'), _t('即你的七牛云存储域名，如http://yourblog.qiniudn.com/'));
+    $form->addInput($cdn_address);
+    
+    //默认缩略图
+    $default = new Typecho_Widget_Helper_Form_Element_Text('default_thumb', NULL, '', _t('默认缩略图'),_t('文章没有图片时显示的默认缩略图，为空时表示不显示'));
+    $form->addInput($default);
+    //默认宽度
+    $width = new Typecho_Widget_Helper_Form_Element_Text('thumb_width', NULL, '200', _t('缩略图默认宽度'));
+    $form->addInput($width);
+    //默认高度
+    $height = new Typecho_Widget_Helper_Form_Element_Text('thumb_height', NULL, '140', _t('缩略图默认高度'));
+    $form->addInput($height);
+    
+    $listStyle = new Typecho_Widget_Helper_Form_Element_Checkbox('listStyle',
+        array('excerpt' => _t('显示摘要'),
+            'thumb' => _t('显示缩略图')),
+        array('excerpt', 'thumb'), _t('列表显示'));
+    
+    $form->addInput($listStyle);
+    
 }
+
+function showThumb($obj,$size=null,$link=false,$pattern='<div class="post-thumb"><a class="thumb" href="{permalink}" title="{title}" style="background-image:url({thumb})"></a></div>'){
+
+    preg_match_all( "/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/", $obj->content, $matches );
+    $thumb = '';
+    $options = Typecho_Widget::widget('Widget_Options');
+    if(isset($matches[1][0])){
+        $thumb = $matches[1][0];;
+        if(!empty($options->src_add) && !empty($options->cdn_add)){
+            $thumb = str_ireplace($options->src_add,$options->cdn_add,$thumb);
+        }
+        if($size!='full'){
+            $thumb_width = $options->thumb_width;
+            $thumb_height = $options->thumb_height;
+    
+            if($size!=null){
+                $size = explode('x', $size);
+                if(!empty($size[0]) && !empty($size[1])){
+                    list($thumb_width,$thumb_height) = $size;
+                }
+            }
+            $thumb .= '?imageView2/4/w/'.$thumb_width.'/h/'.$thumb_height;
+        }
+    }
+
+	if(empty($thumb) && empty($options->default_thumb)){
+	    return '';
+	}else{
+	    $thumb = empty($thumb) ? $options->default_thumb : $thumb;
+	}
+	if($link){
+	    return $thumb;
+	}
+	echo str_replace(
+	    array('{title}','{thumb}','{permalink}'),
+	    array($obj->title,$thumb,$obj->permalink),
+	    $pattern);
+}
+/**
+ * 解析内容以实现附件加速
+ * @access public
+ * @param string $content 文章正文
+ * @param Widget_Abstract_Contents $obj
+ */
+function parseContent($obj){
+    $options = Typecho_Widget::widget('Widget_Options');
+    if(!empty($options->src_add) && !empty($options->cdn_add)){
+        $content = str_ireplace($options->src_add,$options->cdn_add,$obj->content);
+    }
+    echo trim($obj->content);
+}
+/**
+ * 实现静态资源的加速
+ * @param string $params
+ */
+function themeCdnUrl($params=null){
+    $options = Typecho_Widget::widget('Widget_Options');
+    if(!empty($options->src_add) && !empty($options->cdn_add)){
+        echo $options->cdn_add.$params;
+    }else{
+        $options->themeUrl($params);
+    }
+}
+
 /**
  * 格式化时间
  * @param int $time 时间戳
@@ -41,45 +129,32 @@ function formatTime($time,$str='Y-m-d'){
     return $r;
 }
 /**
- * 内容归档
+ * 生成随机颜色值
+ * @return string
  */
-function showArchives(){
-    $stat = Typecho_Widget::widget('Widget_Stat');
-    Typecho_Widget::widget('Widget_Contents_Post_Recent', 'pageSize='.$stat->publishedPostsNum)->to($archives);
-    $year=0; $mon=0; $i=0; $j=0;
-    $output = '<div class="archives">';
-    while($archives->next()){
-        $year_tmp = date('Y',$archives->created);
-        $mon_tmp = date('m',$archives->created);
-        $y=$year; $m=$mon;
-        if ($year > $year_tmp || $mon > $mon_tmp) {
-            $output .= '</ul></div>';
-        }
-        if ($year != $year_tmp || $mon != $mon_tmp) {   
-			 $year = $year_tmp;
-			 $mon = $mon_tmp;
-			 $output .= '<div class="archives-item"><h2>'.date('Y年m月',$archives->created).'</h2><ul class="archives_list">'; //输出年份   
-        }   
-        $output .= '<li>'.date('d日',$archives->created).' <a href="'.$archives->permalink .'">'. $archives->title .'</a></li>'; //输出文章
-    }
-    $output .= '</ul></div></div>';
-    echo $output;
+function randColor(){
+    return rand(120,200).','.rand(120,200).','.rand(120,200);
 }
 /**
  * 显示标签
- * @param array $options parse:显示格式;where:查询条件
+ * @param string $parse 解析模版
+ * @param number $limit 显示条数 为0时表示显示全部
+ * @param string $sort 排序字段
+ * @param number $desc 默认为0,表示倒序
+ * @return void
  */
-function showTagCloud($options=array()){
-    $defautlOptions = array(
-        'parse'=>'<li><a href="{permalink}" title="{count}个话题">{name}({count})</a></li>',
-        'where'=>'sort=mid&ignoreZeroCount=1&desc=0&limit=30'
-    );
-    $options = !empty($options) ? array_merge($defautlOptions,$options) : $defautlOptions;
-    Typecho_Widget::widget('Widget_Metas_Tag_Cloud', $options['where'])->to($tags);
+function showTagCloud($parse=null,$limit=30,$sort='mid',$desc=0){
+    $parse = is_null($parse) ? '<li><a href="{permalink}" title="{count}个话题" style="{background}">{name}({count})</a></li>': $parse;
+    Typecho_Widget::widget('Widget_Metas_Tag_Cloud', 'sort='.$sort.'&ignoreZeroCount=1&desc='.$desc.'&limit='.$limit)->to($tags);
     $output = '';
     if($tags->have()){
         while ($tags->next()){
-            $output .= str_replace(array('{permalink}','{count}','{name}'), array($tags->permalink,$tags->count,$tags->name), $options['parse']);
+            $color = 'color: rgb('.randColor().');';
+            $background = 'background-'.$color;
+            $output .= str_replace(
+                array('{permalink}','{count}','{name}','{background}','{color}'),
+                array($tags->permalink,$tags->count,$tags->name,$background,$color),
+                $parse);
         }
     }
     echo $output;
