@@ -86,7 +86,7 @@ function showThumb($obj,$size=null,$link=false,$pattern='<div class="post-thumb"
 function parseContent($obj){
     $options = Typecho_Widget::widget('Widget_Options');
     if(!empty($options->src_add) && !empty($options->cdn_add)){
-        $content = str_ireplace($options->src_add,$options->cdn_add,$obj->content);
+        $obj->content = str_ireplace($options->src_add,$options->cdn_add,$obj->content);
     }
     echo trim($obj->content);
 }

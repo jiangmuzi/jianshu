@@ -22,7 +22,7 @@
     	<h3 id="response"><?php _e('添加新评论'); ?></h3>
     	<form method="post" action="<?php $this->commentUrl() ?>" id="comment-form" role="form">
             <?php if($this->user->hasLogin()): ?>
-    		<p class="span12"><?php _e('登录身份: '); ?><a href="<?php $this->options->profileUrl(); ?>"><?php $this->user->screenName(); ?></a>. <a href="<?php $this->options->logoutUrl(); ?>" title="Logout"><?php _e('退出'); ?> &raquo;</a></p>
+    		<p><?php _e('登录身份: '); ?><a href="<?php $this->options->profileUrl(); ?>"><?php $this->user->screenName(); ?></a>. <a href="<?php $this->options->logoutUrl(); ?>" title="Logout"><?php _e('退出'); ?> &raquo;</a></p>
             <?php else: ?>
     		<p class="span4">
                 <label for="author" class="required"><?php _e('称呼'); ?></label>
@@ -37,11 +37,11 @@
     			<input type="url" name="url" id="url" class="text" placeholder="<?php _e('http://'); ?>" value="<?php $this->remember('url'); ?>"<?php if ($this->options->commentsRequireURL): ?> required<?php endif; ?> />
     		</p>
             <?php endif; ?>
-    		<p class="span12">
+    		<p>
                 <label for="textarea" class="required"><?php _e('内容'); ?></label>
                 <textarea rows="8" cols="50" name="text" id="textarea" class="textarea" required ><?php $this->remember('text'); ?></textarea>
             </p>
-    		<p class="span12">
+    		<p class="alignright">
                 <button type="submit" class="submit btn s3"><?php _e('提交评论'); ?></button>
             </p>
     	</form>
