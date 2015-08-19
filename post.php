@@ -9,7 +9,7 @@
             <li><?php _e('<i class="fa fa-clock-o"></i>'); ?> <time datetime="<?php $this->date('c'); ?>" itemprop="datePublished"><?php $this->date('Y-m-d'); ?></time></li>
             <li><?php _e('<i class="fa fa-eye"></i> 阅读'); ?>(<?php $this->viewsNum(); ?>)</li>
             <li itemprop="interactionCount"><a itemprop="discussionUrl" href="<?php $this->permalink() ?>#comments"><?php $this->commentsNum('<i class="fa fa-comments-o"></i> 评论(%d)'); ?></a></li>
-            <li class="post-qrcode" title="<?php _e('手机浏览');?>"><i class="fa fa-qrcode"></i>
+            <li class="post-qrcode"><i class="fa fa-qrcode"></i>
                 <div id="qrcode-img"></div>
             </li>
         </ul>

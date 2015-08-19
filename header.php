@@ -29,8 +29,8 @@
 <![endif]-->
 <div class="navbar navbar-jianshu shrink"> 
 	<div class="dropdown"> 
-		<a class="dropdown-toggle logo" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="javascript:void(0)"><?php if($this->options->logoText){$this->options->logoText();}else{echo mb_substr($this->options->title,0,1,'utf-8');} ?></a> 
-		<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"> 
+		<a class="dropdown-toggle logo" data-target="#nav-menu" href="#"><?php if($this->options->logoText){$this->options->logoText();}else{echo mb_substr($this->options->title,0,1,'utf-8');} ?></a> 
+		<ul class="dropdown-menu" id="nav-menu"> 
 			<li><a href="<?php $this->options->siteUrl(); ?>"><i class="fa fa-home"></i><?php _e('首页 '); ?></a></li> 
 		    <?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
             <?php while($pages->next()): ?>

@@ -16,6 +16,20 @@ $(function(){
         return false;
 	});
 	
+	$('.dropdown-toggle').click(function(){
+		var target = $(this).data('target');
+		console.log(target);
+		if($(target).hasClass('active')){
+			$(target).removeClass('active')
+		}else{
+			$(target).addClass('active')
+		}
+		return false;
+	});
+	
+	$(document).bind('click',function(){
+		$('.dropdown-menu.active').removeClass('active');
+	});
 	if(window.isArchive){
 		$(window).bind("scroll", ajaxLoadArchives);
 	}

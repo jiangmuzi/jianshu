@@ -425,7 +425,7 @@ body {
 	box-shadow: none;
 	z-index: 1000
 }
-.shrink:hover .dropdown-menu{
+.shrink .dropdown-menu.active{
 	display:block;
 }
 .shrink .dropdown-menu li a {
