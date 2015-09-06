@@ -13,7 +13,10 @@ function themeConfig($form) {
     
     $bgPhoto = new Typecho_Widget_Helper_Form_Element_Text('bgPhoto', NULL, NULL, _t('网站背景图'), _t('在这里填入背景图网址'));
     $form->addInput($bgPhoto);
-    
+    $alipayAccount = new Typecho_Widget_Helper_Form_Element_Text('alipayAccount', NULL, NULL, _t('打赏支付宝帐号'), _t('在这里填入支付宝帐号'));
+    $form->addInput($alipayAccount);
+    $alipayAmount = new Typecho_Widget_Helper_Form_Element_Text('alipayAmount', NULL, NULL, _t('默认打赏金额'), _t('在这里填入打赏金额'));
+    $form->addInput($alipayAmount);
     //附件源地址
     $src_address = new Typecho_Widget_Helper_Form_Element_Text('src_add', NULL, NULL, _t('替换前地址'), _t('即你的附件存放地址，如http://www.yourblog.com/usr/uploads/'));
     $form->addInput($src_address);
