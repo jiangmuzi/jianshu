@@ -16,6 +16,18 @@
         <div class="post-content" itemprop="articleBody">
             <?php parseContent($this); ?>
         </div>
+        <div class="post-donate">
+			<p><i class="fa fa-cny"></i> 打赏几块钱，帮我买杯咖啡吧，谢谢大家！<button class="btn s2 fr" onclick="$('#alipay-form').submit();"><i class="fa fa-cny"> <?php _e('打赏支持');?></i></button></p>
+			<div class="post-donate-img">
+				<p>支付宝二维码</p>
+				<img src="<?php $this->options->themeUrl('img/alipay.png'); ?>">
+			</div>
+			<form id="alipay-form" action="https://shenghuo.alipay.com/send/payment/fill.htm" method="POST" target="_blank" accept-charset="GBK">
+				<input type="hidden" name="optEmail" value="<?php $this->options->alipayAccount();?>">
+				<input type="hidden" name="payAmount" value="<?php $this->options->alipayAmount();?>">
+				<input type="hidden" name="title" value="<?php _e('打赏：');$this->title();?>">
+			</form>
+		</div>
         <p itemprop="keywords" class="tags"><?php _e('标签: '); ?><?php $this->tags(', ', true, 'none'); ?></p>
     </article>
     <ul class="post-near">
