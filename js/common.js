@@ -3,12 +3,8 @@
  */
 $(function(){
 	$('.set-view-mode').click(function(){
-		setReadMode($(this).data('mode'));
+		switchReadMode();
 	});
-	window.onload = function(){
-		setReadMode();
-	};
-	
 	$(window).bind("scroll", backToTopFun);
 	
 	$('.back-to-top').click(function() {
@@ -26,6 +22,32 @@ $(function(){
 		}
 		return false;
 	});
+	$('.donate-tab li').click(function(){
+		var num=$(this).data('num');
+		$(this).addClass('active').siblings().removeClass('active');
+		$('#donate-form').find('input[name=payAmount]').val(num);
+		$('#donate-form').find('button').text('赞助：￥'+num);
+	});
+	//帐号解绑
+	$('.sns-btn .active').click(function(){
+		var type = $(this).data('type');
+		$.get('/user/bind?type='+type).success(function(rs){
+			if(rs.status==1){
+				window.location.href = window.location.href;
+			}
+		});
+		return false;
+	});
+	
+	$('.bind-tab a').click(function(){
+		var that = $(this),li = that.parent(),id = that.attr('href');
+		if(li.hasClass('active')){
+			return false;
+		}
+		li.addClass('active').siblings().removeClass('active');
+		$(id).show().siblings('.tab-item').hide();
+		return false;
+	});
 	
 	$(document).bind('click',function(){
 		$('.dropdown-menu.active').removeClass('active');
@@ -34,7 +56,22 @@ $(function(){
 		$(window).bind("scroll", ajaxLoadArchives);
 	}
 	backToTopFun();
+	showNotice();
 });
+function showNotice(){
+	if(window.notice=='') return false;
+	showAlert(window.notice.msg,window.notice.type,2000);
+}
+function showAlert(msg,type,time){
+	var type = type==='error' ? 'alert-error' :'';
+	var html = '<div id="ui-alert" class="'+type+'">';
+		html += msg;
+		html += '</div>';
+	$(html).prependTo($('body'));
+	setTimeout(function(){
+		$('#ui-alert').animate({ top: -50}, 500);
+	},time);
+}
 function backToTopFun() {
     var st = $(document).scrollTop(), winh = $(window).height(),backToTopEle = $('.back-to-top');
     (st > 120)? backToTopEle.show(): backToTopEle.hide();
@@ -77,41 +114,22 @@ var ajaxLoad = {
 			$('<div id="ajax-page" class="page-navigator"><a>没有更多内容了</a></div>').appendTo($('#main-container'));
 		}
 }
-function setReadMode(mode){
+function switchReadMode(){
 	var btn = $('.set-view-mode');
-	mode = mode===undefined ? getCookie('read-mode') : mode;
-	//console.log(mode);
-    if(mode=='day'){
+	var next_mode = $('body').hasClass('night-mode') ? 'day' : 'night';
+
+    if(next_mode!='day'){
     	$('body').addClass('night-mode');
-    	btn.data('mode','night').find('i').attr('class','fa fa-sun-o');
+    	btn.find('i').attr('class','fa fa-sun-o');
     }else{
-	    if($('body').hasClass('night-mode')){
-	    	$('body').removeClass('night-mode');
-			btn.data('mode','day').find('i').attr('class','fa fa-moon-o');
-		}
+    	$('body').removeClass('night-mode');
+		btn.find('i').attr('class','fa fa-moon-o');
 	}
-    setCookie('read-mode',mode,86400);
+    setCookie('read-mode', next_mode, 86400);
 }
 function setCookie(name,value,expires){  
     expires = new Date(+new Date + 1000 * 60 * 60 * 24 * expires);
     expires = ';expires=' + expires.toGMTString();
     path = ';path=/';
-    document.cookie = name+"="+escape(value)+expires+path;   //转码并赋值
-}
-function getCookie(name) { 
-	var nameEQ = name + "=";    
-	var ca = document.cookie.split(';');//把cookie分割成组    
-	for(var i=0;i < ca.length;i++) {    
-		var c = ca[i];//取得字符串    
-		while (c.charAt(0)==' ') {//判断一下字符串有没有前导空格    
-			c = c.substring(1,c.length);//有的话，从第二位开始取    
-		}    
-		if (c.indexOf(nameEQ) == 0) {//如果含有我们要的name    
-			return unescape(c.substring(nameEQ.length,c.length));//解码并截取我们要值    
-		}    
-	}    
-	return false;
-}
-function delCookie(name){  
-	setCookie(name,'',-1);
+    document.cookie = window.siteKey+name+"="+escape(value)+expires+path;   //转码并赋值
 }

@@ -29,13 +29,15 @@
 <?php $this->footer(); ?>
 <script src="<?php $this->options->themeUrl('js/common.js'); ?>"></script>
 <?php if ($this->is('post')) :?>
-<script src="http://apps.bdimg.com/libs/prettify/r298/prettify.min.js"></script>
+<script src="<?php $this->options->themeUrl('js/highlight.min.js'); ?>"></script>
 <script src="<?php $this->options->themeUrl('js/qrcode.js'); ?>"></script>
+<script src="<?php $this->options->themeUrl('js/lightbox.min.js'); ?>"></script>
 <script>
 $(function(){
 	$(window).load(function(){
-	     $("pre code").addClass("prettyprint");
-	     prettyPrint();
+	     $('pre code').each(function(i, block) {
+			hljs.highlightBlock(block);
+		  });
 	});
 	var qrcode = new QRCode(document.getElementById("qrcode-img"), {
         width : 96,//设置宽高
