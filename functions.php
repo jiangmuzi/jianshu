@@ -55,10 +55,9 @@ function themeConfig($form) {
  * @param int $size
  * @param string $rating
  * @param string $default
- * @param bool $isSecure
  * @return string
  */
-function gravatarUrl($mail, $size=32, $rating=null, $default=null, $isSecure = false){
+function gravatarUrl($mail, $size=32, $rating=null, $default=null){
 	$url = Typecho_Widget::widget('Widget_Options')->avatarDomain;
 	$url .= '/avatar/';
 

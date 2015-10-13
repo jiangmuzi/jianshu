@@ -90,6 +90,7 @@ $screen_mode = Typecho_Cookie::get('read-mode','day');
 <div class="sidebar">
     <div class="cover-img" style="background-image: url(<?php if ($this->options->bgPhoto){$photo = explode(',',$this->options->bgPhoto);echo $photo[array_rand($photo,1)];}else{$this->options->themeUrl('img/defaultBg.jpg');}?>)"></div>
     <div class="bottom-block">
+	  <img class="avatar" width="72" src="<?php echo gravatarUrl('master@lixianhua.com',72); ?>" alt="" />
       <h1><?php $this->options->title(); ?></h1>
       <p><?php $this->options->description(); ?></p>
     </div>

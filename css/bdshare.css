@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+.bdsharebuttonbox a{
+	padding:10px;
+	background-color:#24AA42;
+	font-size:20px;
+	line-height: 16px;
+	height: 16px;
+	cursor: pointer;
+	margin: 10px 5px 10px 5px;
+	color:#fff;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	text-align:center;
+}
+.bdsharebuttonbox a:hover{
+	filter:alpha(opacity=70);
+	-moz-opacity:0.7;
+	opacity:0.7;
+}
+.bdsharebuttonbox a.bds_tsina{
+	background-color:#c40000;
+}
+.bdsharebuttonbox a.bds_mail{
+	background-color:#D28300;
+}

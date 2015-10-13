@@ -22,32 +22,6 @@ $(function(){
 		}
 		return false;
 	});
-	$('.donate-tab li').click(function(){
-		var num=$(this).data('num');
-		$(this).addClass('active').siblings().removeClass('active');
-		$('#donate-form').find('input[name=payAmount]').val(num);
-		$('#donate-form').find('button').text('赞助：￥'+num);
-	});
-	//帐号解绑
-	$('.sns-btn .active').click(function(){
-		var type = $(this).data('type');
-		$.get('/user/bind?type='+type).success(function(rs){
-			if(rs.status==1){
-				window.location.href = window.location.href;
-			}
-		});
-		return false;
-	});
-	
-	$('.bind-tab a').click(function(){
-		var that = $(this),li = that.parent(),id = that.attr('href');
-		if(li.hasClass('active')){
-			return false;
-		}
-		li.addClass('active').siblings().removeClass('active');
-		$(id).show().siblings('.tab-item').hide();
-		return false;
-	});
 	
 	$(document).bind('click',function(){
 		$('.dropdown-menu.active').removeClass('active');
@@ -55,22 +29,53 @@ $(function(){
 	if(window.isArchive){
 		$(window).bind("scroll", ajaxLoadArchives);
 	}
+	
+	$('.btn-like').click(function(){
+		var that = $(this),num = parseInt(that.find('.post-likesnum').text()), cid = $(this).data('cid');
+		if(cid===undefined) return false;
+		$.get(window.siteUrl+'index.php/action/likes?cid='+cid).success(function(rs){
+			if(rs.status==1){
+				that.find('.post-likesnum').text(num+1);
+				dalert(rs.msg===undefined ? '成功点赞!' : rs.msg,'success');
+			}else{
+				dalert(rs.msg===undefined ? '操作出错!' : rs.msg,'error');
+			}
+			
+		});
+		return false;
+	});
+	//弹出框
+	$('.btn-dialog').click(function(){
+		var d = $(this).data('dialog');
+		if(d===undefined) return false;
+		
+		if($(d).length<1) return false;
+		$('<div id="overlay"></div>').appendTo($('body')).fadeIn(300).click(function(){
+			$(this).remove();
+			$('.dialog').removeAttr('style');
+		});
+		var w = $(d).width(),h = $(d).height();
+		$(d).css('margin-top',-h/2).css('margin-left',-w/2).show();
+		return false;
+	});
 	backToTopFun();
 	showNotice();
 });
+
 function showNotice(){
 	if(window.notice=='') return false;
-	showAlert(window.notice.msg,window.notice.type,2000);
+	dalert(window.notice.msg,window.notice.type);
 }
-function showAlert(msg,type,time){
-	var type = type==='error' ? 'alert-error' :'';
-	var html = '<div id="ui-alert" class="'+type+'">';
-		html += msg;
-		html += '</div>';
-	$(html).prependTo($('body'));
-	setTimeout(function(){
-		$('#ui-alert').animate({ top: -50}, 500);
-	},time);
+
+function dalert(msg,type,time){
+	type = type==='error' ? 'error' :'success';
+	time = time === undefined ? (type=='success' ? 1500 : 3000) : time;
+	var html = '<div class="dialog '+type+'">'+msg+'</div>';
+	$(html).css('top',80).appendTo($('body')).fadeIn(300,function(){
+		setTimeout(function(){
+			$('body > .dialog').remove();
+		},1500);
+	});
 }
 function backToTopFun() {
     var st = $(document).scrollTop(), winh = $(window).height(),backToTopEle = $('.back-to-top');
