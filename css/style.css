@@ -1238,7 +1238,7 @@ footer a {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	z-index:10240;
+	z-index:2048;
 }
 .dialog.error{
 	background-color:#f40;
@@ -1250,7 +1250,7 @@ footer a {
 }
 #overlay{
 	position: fixed;
-	z-index: 10230;
+	z-index: 2047;
 	top: 0px;
 	left: 0px;
 	height: 100%;
