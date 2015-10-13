@@ -1,5 +1,4 @@
 @CHARSET "UTF-8";
-@CHARSET "UTF-8";
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section {
 	display: block
 }
@@ -87,7 +86,7 @@ input[type="text"],input[type="email"],input[type="url"],input[type="password"],
 
 pre,code {
 	background:#F3F3F0;
-	font-family:Menlo,Monaco,Consolas,"Lucida Console","Courier New",monospace;
+	font-family:"Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 	font-size:.92857em;
 }
 code {
@@ -109,7 +108,7 @@ blockquote {
 }
 body {
 	margin: 0;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 	font-size:14px;
 	line-height: 20px;
 	color: #555;
