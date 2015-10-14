@@ -9,8 +9,9 @@
 		</div>
         <h1 class="post-title" itemprop="name headline"><?php $this->title() ?></h1>
         <ul class="post-meta clearfix">
-            <li><?php _e('阅读'); ?> <?php $this->viewsNum(); ?></li>
-            <li itemprop="interactionCount"><a itemprop="discussionUrl" href="<?php $this->permalink() ?>#comments"><?php $this->commentsNum('评论 %d'); ?></a></li>
+            <li><?php _e('阅读');$this->viewsNum(); ?></li>
+            <li><a href="<?php $this->permalink() ?>#comments"><?php $this->commentsNum('评论%d'); ?></a></li>
+			<li><?php _e('喜欢');$this->likesNum(); ?></li>
             <li class="post-qrcode"><i class="fa fa-qrcode"></i>
                 <div id="qrcode-img"></div>
             </li>
