@@ -4,7 +4,6 @@
     <?php if ($comments->have()): ?>
 	<p>
 	   <?php $this->commentsNum(_t('暂无评论'), _t('仅有一条评论'), _t('已有 %d 条评论')); ?>
-	
 	   <a class="pull-right" href="#<?php $this->respondId(); ?>"><i class="fa fa-pencil"></i> 添加新评论</a>
 	</p>
     
@@ -43,6 +42,7 @@
 					<input type="url" name="url" id="url" class="text" placeholder="<?php _e('http://'); ?>" value="<?php $this->remember('url'); ?>"<?php if ($this->options->commentsRequireURL): ?> required<?php endif; ?> />
 				</p>
 				<?php endif; ?>
+				
 				<p class="alignright">
 					<button type="submit" class="submit btn s3"><?php _e('提交评论'); ?></button>
 				</p>

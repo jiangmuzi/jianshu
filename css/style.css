@@ -1343,7 +1343,9 @@ pre.prettyprint {
 .fa-categories:before{
 	content: "\f02d";
 }
-
+.fa-services:before{
+	content: "\f0f2";
+}
 @media (max-width: 480px) {
 	.nav {
 		margin-right: 0

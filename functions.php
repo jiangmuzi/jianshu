@@ -5,6 +5,9 @@ function themeConfig($form) {
     $logoText = new Typecho_Widget_Helper_Form_Element_Text('logoText', NULL, NULL, _t('网站文字LOGO'), _t('网站文字LOGO，单个文字;为空时取网站标题第一个文字'));
     $form->addInput($logoText);
     
+	$avatarUrl = new Typecho_Widget_Helper_Form_Element_Text('avatarUrl', NULL, NULL, _t('博主头像'), _t('博主头像地址，为空则不显示'));
+    $form->addInput($avatarUrl);
+	
     $icpNum = new Typecho_Widget_Helper_Form_Element_Text('icpNum', NULL, NULL, _t('网站备案号'), _t('在这里填入网站备案号'));
     $form->addInput($icpNum);
     
@@ -40,6 +43,9 @@ function themeConfig($form) {
     $height = new Typecho_Widget_Helper_Form_Element_Text('thumb_height', NULL, '140', _t('缩略图默认高度'));
     $form->addInput($height);
     
+	$iconCss = new Typecho_Widget_Helper_Form_Element_Textarea('iconCss', NULL, NULL, _t('图标样式'), _t('在这里填入图标样式代码'));
+    $form->addInput($iconCss);
+	
     $listStyle = new Typecho_Widget_Helper_Form_Element_Checkbox('listStyle',
         array('excerpt' => _t('显示摘要'),
             'thumb' => _t('显示缩略图')),

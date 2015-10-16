@@ -35,6 +35,9 @@ $screen_mode = Typecho_Cookie::get('read-mode','day');
         ), '', ' - '); ?><?php $this->options->title(); ?></title>
     <link rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php $this->options->themeUrl('css/style.css'); ?>">
+	<?php if($this->options->iconCss):?>
+	<?php $this->options->iconCss();?>
+	<?php endif;?>
     <!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="http://cdn.staticfile.org/respond.js/1.3.0/respond.min.js"></script>
@@ -90,7 +93,9 @@ $screen_mode = Typecho_Cookie::get('read-mode','day');
 <div class="sidebar">
     <div class="cover-img" style="background-image: url(<?php if ($this->options->bgPhoto){$photo = explode(',',$this->options->bgPhoto);echo $photo[array_rand($photo,1)];}else{$this->options->themeUrl('img/defaultBg.jpg');}?>)"></div>
     <div class="bottom-block">
-	  <img class="avatar" width="72" src="<?php echo gravatarUrl('master@lixianhua.com',72); ?>" alt="" />
+	<?php if($this->options->avatarUrl):?>
+		<img class="avatar" width="72" src="<?php $this->options->avatarUrl();?>" alt="" />
+	<?php endif;?>
       <h1><?php $this->options->title(); ?></h1>
       <p><?php $this->options->description(); ?></p>
     </div>
