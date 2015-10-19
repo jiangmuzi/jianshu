@@ -18,12 +18,13 @@
         <div class="cancel-comment-reply">
         <?php $comments->cancelReply(); ?>
         </div>
-    	<h3 id="response"><?php _e('添加新评论'); ?></h3>
+    
+    	<h3 id="response"><?php _e('发表评论'); ?></h3>
     	<form method="post" action="<?php $this->commentUrl() ?>" id="comment-form" role="form">
-    		<p>
-                <label for="textarea" class="required"><?php _e('内容'); ?></label>
+    		<div>
+                <label for="textarea" class="required hide"><?php _e('内容'); ?></label>
                 <textarea rows="4" cols="50" name="text" id="textarea" class="textarea" required ><?php $this->remember('text'); ?></textarea>
-            </p>
+            </div>
 			<div class="comments-fields">
 				<?php if($this->user->hasLogin()): ?>
 				<p><?php $this->user->screenName(); ?>. <a href="<?php $this->options->logoutUrl(); ?>" title="Logout"><?php _e('退出'); ?> &raquo;</a></p>
@@ -42,7 +43,6 @@
 					<input type="url" name="url" id="url" class="text" placeholder="<?php _e('http://'); ?>" value="<?php $this->remember('url'); ?>"<?php if ($this->options->commentsRequireURL): ?> required<?php endif; ?> />
 				</p>
 				<?php endif; ?>
-				
 				<p class="alignright">
 					<button type="submit" class="submit btn s3"><?php _e('提交评论'); ?></button>
 				</p>

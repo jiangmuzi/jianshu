@@ -1002,8 +1002,7 @@ li.comment-body:hover > .comment-meta > .comment-meta-reply{
 	font-size:.92857em;
 }
 #response{
-	margin:0;
-	line-height:36px;
+	margin:10px 0;
 }
 #comment-form{
 	overflow:hidden;
@@ -1026,6 +1025,10 @@ li.comment-body:hover > .comment-meta > .comment-meta-reply{
 #comment-form .field input {
   display: inline-block;
   width: 50%;
+
+}
+#comment-form textarea,#comment-form input{
+	background-color:#fff;
 }
 #comment-form .submit {
   position: absolute;
@@ -1038,10 +1041,6 @@ li.comment-body:hover > .comment-meta > .comment-meta-reply{
 }
 #comment-form input:focus,#comment-form textarea:focus{
 	border: 1px solid #10A64F;
-}
-#secondary {
-	padding:15px 0 0;
-	word-wrap:break-word;
 }
 /* tag-list */
 ul.tag-list{
