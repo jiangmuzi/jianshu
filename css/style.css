@@ -885,13 +885,13 @@ body {
 
 .post-tool{
 	position:relative;
-	width:300px;
+	width:240px;
 	margin:20px auto;
 	
 }
 .post-tool span a{
 	display:inline-block;
-	width:145px;
+	width:115px;
 	text-align:center;
 	padding:0;
 	line-height:36px;
@@ -900,7 +900,7 @@ body {
 .post-tool .post-donate{
 	position:absolute;
 	top:-8px;
-	left:124px;
+	left:94px;
 	background-color:#fff;
 }
 .post-tool .post-donate a{

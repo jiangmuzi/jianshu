@@ -1,6 +1,10 @@
 @CHARSET "UTF-8";
+.bdsharebuttonbox{
+	width:215px;
+}
 .bdsharebuttonbox a{
-	padding:10px;
+	padding:10px 0;
+	width:40px;
 	background-color:#24AA42;
 	font-size:20px;
 	line-height: 16px;
