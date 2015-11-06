@@ -14,7 +14,6 @@ $(function(){
 	
 	$('.dropdown-toggle').click(function(){
 		var target = $(this).data('target');
-		console.log(target);
 		if($(target).hasClass('active')){
 			$(target).removeClass('active')
 		}else{

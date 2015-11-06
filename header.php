@@ -56,18 +56,6 @@ $screen_mode = Typecho_Cookie::get('read-mode','day');
 <!--[if lt IE 8]>
     <div class="browsehappy" role="dialog"><?php _e('当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>'); ?>.</div>
 <![endif]-->
-<div class="navbar navbar-jianshu shrink"> 
-	<div class="dropdown">
-		<a class="dropdown-toggle logo" data-target="#nav-menu" href="#"><?php if($this->options->logoText){$this->options->logoText();}else{echo mb_substr($this->options->title,0,1,'utf-8');} ?></a> 
-		<ul class="dropdown-menu" id="nav-menu"> 
-			<li><a href="<?php $this->options->siteUrl(); ?>"><i class="fa fa-home"></i><?php _e('首页 '); ?></a></li> 
-		    <?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
-            <?php while($pages->next()): ?>
-            <li><a href="<?php $pages->permalink(); ?>" title="<?php $pages->title(); ?>"><i class="fa fa-<?php $pages->slug(); ?>"> </i> <?php $pages->title(); ?></a></li>
-            <?php endwhile; ?>
-		</ul> 
-	</div> 
-</div> 
 <div class="navbar-user">
     <?php if($this->user->hasLogin()): ?>
         <a class="login" href="<?php $this->options->logoutUrl(); ?>"> <i class="fa fa-sign-out"> </i> <?php _e('退出'); ?></a>
@@ -81,8 +69,8 @@ $screen_mode = Typecho_Cookie::get('read-mode','day');
     </a> 
 </div> 
 <div class="navbar navbar-jianshu">
-	<div class="dropdown"> 
-		<a class="logo<?php if($this->is('index')): ?> active<?php endif; ?>" role="button" data-original-title="个人主页" data-container="div.expanded" href="<?php $this->options->siteUrl(); ?>"> <b> <?php if($this->options->logoText){$this->options->logoText();}else{echo mb_substr($this->options->title,0,1,'utf-8');} ?></b> <i class="fa fa-home"> </i> <span class="title"> <?php _e('首页 '); ?> </span> </a>
+<a class="logo dropdown-toggle<?php if($this->is('index')): ?> active<?php endif; ?>"  data-target="#nav-menu" href="<?php $this->options->siteUrl(); ?>"> <b> <?php if($this->options->logoText){$this->options->logoText();}else{echo mb_substr($this->options->title,0,1,'utf-8');} ?></b> <i class="fa fa-home"> </i> <span class="title"> <?php _e('首页'); ?> </span></a>
+	<div class="dropdown" id="nav-menu"> 
 		<?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
         <?php while($pages->next()): ?>
         <a<?php if($this->is('page', $pages->slug)): ?> class="active"<?php endif; ?> href="<?php $pages->permalink(); ?>" title="<?php $pages->title(); ?>"><i class="fa fa-<?php $pages->slug(); ?>"> </i> <span class="title"> <?php $pages->title(); ?> </span> </a>
