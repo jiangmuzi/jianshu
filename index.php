@@ -10,7 +10,8 @@
  */
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
- $this->need('header.php');
+ if(!$this->request->isAjax())
+	$this->need('header.php');
 ?>
 <div id="main-container" class="main-container">
 <?php while($this->next()): ?>
@@ -23,7 +24,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 		    <li><?php $this->dateWord(); ?></li>
 			<li><?php _e('阅读');$this->viewsNum(); ?></li>
 			<li><?php _e('喜欢');$this->likesNum(); ?></li>
-			<li href="<?php $this->permalink() ?>#<?php $this->respondId(); ?>"><?php $this->commentsNum('评论%d'); ?></a></li>
+			<li><a href="<?php $this->permalink() ?>#<?php $this->respondId(); ?>"><?php $this->commentsNum('评论%d'); ?></a></li>
 		</ul>
 		<h2 class="post-title" itemprop="name headline"><a itemtype="url" href="<?php $this->permalink() ?>"><?php $this->title() ?></a></h2>
         <?php if(!empty($this->options->listStyle) && in_array('excerpt',$this->options->listStyle)): ?>
@@ -37,4 +38,5 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
         <?php $this->pageLink('更多','next');?>
     </div>
 </div>
-<?php $this->need('footer.php'); ?>
+
+<?php if(!$this->request->isAjax()) $this->need('footer.php'); ?>

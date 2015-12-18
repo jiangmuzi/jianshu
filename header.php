@@ -50,7 +50,6 @@ $screen_mode = Typecho_Cookie::get('read-mode','day');
     window.siteUrl = '<?php $this->options->siteUrl();?>';
     window.siteKey = '<?php echo md5($this->options->index);?>';
     </script>
-    <?php if($this->options->siteStat):?><?php $this->options->siteStat();?><?php endif;?>
 </head>
 <body class="<?php if($screen_mode=='night'){echo 'night-mode ';}?><?php if($this->is('post') || $this->is('user')): ?>single<?php endif; ?><?php if($this->is('user')): ?> user-page<?php endif; ?>">
 <!--[if lt IE 8]>
@@ -68,7 +67,7 @@ $screen_mode = Typecho_Cookie::get('read-mode','day');
 	   <i class="fa <?php if($screen_mode=='day'){echo 'fa-moon-o';}else{ echo 'fa-sun-o';}?>"> </i>
     </a> 
 </div> 
-<div class="navbar navbar-jianshu">
+<div class="navbar-menu">
 <a class="logo dropdown-toggle<?php if($this->is('index')): ?> active<?php endif; ?>"  data-target="#nav-menu" href="<?php $this->options->siteUrl(); ?>"> <b> <?php if($this->options->logoText){$this->options->logoText();}else{echo mb_substr($this->options->title,0,1,'utf-8');} ?></b> <i class="fa fa-home"> </i> <span class="title"> <?php _e('首页'); ?> </span></a>
 	<div class="dropdown" id="nav-menu"> 
 		<?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>

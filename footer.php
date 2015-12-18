@@ -17,11 +17,19 @@
         <?php if ($this->options->icpNum): ?>
            / <a href="http://www.miitbeian.gov.cn/" target="blank"><?php $this->options->icpNum(); ?></a>
         <?php endif; ?>
+		<?php if($this->options->siteStat):?><?php $this->options->siteStat();?><?php endif;?>
 	</p> 
    </div> 
 </footer>
 <div class="fixed-btn">
     <a class="back-to-top" href="#" title="返回顶部"><i class="fa fa-chevron-up"></i></a>
+	<?php if(!ismobile()):?>
+	<a class="page-qrcode"><i class="fa fa-qrcode"></i>
+		<div id="qrcode-img">
+			<p>扫一扫</p>
+		</div>
+	</a>
+	<?php endif; ?>
      <?php if($this->is('post')): ?>
     <a class="go-comments" href="#comments" title="评论"><i class="fa fa-comments"></i></a>
     <?php endif; ?>
@@ -30,8 +38,6 @@
 <script src="<?php $this->options->themeUrl('js/common.js'); ?>"></script>
 <?php if ($this->is('post')) :?>
 <script src="<?php $this->options->themeUrl('js/highlight.min.js'); ?>"></script>
-<script src="<?php $this->options->themeUrl('js/qrcode.js'); ?>"></script>
-<script src="<?php $this->options->themeUrl('js/lightbox.min.js'); ?>"></script>
 <script>
 $(function(){
 	$(window).load(function(){
@@ -39,17 +45,20 @@ $(function(){
 			hljs.highlightBlock(block);
 		  });
 	});
-	var qrcode = new QRCode(document.getElementById("qrcode-img"), {
-        width : 96,//设置宽高
-        height : 96
-    });
-	qrcode.makeCode("<?php $this->permalink();?>");
 })
 </script>
 <?php endif;?>
 <script>
 window.isArchive = <?php if($this->is('index') || $this->is('archive')){echo 'true';}else{echo 'false';}?>;
+<?php if(!ismobile()):?>
+$(function(){
+	var qrcode = new QRCode(document.getElementById("qrcode-img"), {
+        width : 96,//设置宽高
+        height : 96
+    });
+	qrcode.makeCode("<?php echo $this->request->getRequestUrl();?>");
+});
+<?php endif; ?>
 </script>
-<?php if ($this->options->siteStat): ?><?php $this->options->siteStat(); ?><?php endif; ?>
 </body>
 </html>

@@ -125,16 +125,6 @@ function parseContent($obj){
     if(!empty($options->src_add) && !empty($options->cdn_add)){
         $obj->content = str_ireplace($options->src_add,$options->cdn_add,$obj->content);
     }
-	$pattern="/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?alt=[\'|\"](.*?)[\'|\"].*?[\/]?>/";
-	preg_match_all($pattern,$obj->content,$match);
-	if(count($match[1])>0){
-		$div = $match[0];
-		$imgs = $match[1];
-		$alt = $match[2];
-		foreach($imgs as $k=>$v){
-			$obj->content = str_replace($div[$k],"<a href='".$v."' data-lightbox='".$v."'>".$alt[$k]."</a>",$obj->content);
-		}
-	}
     echo trim($obj->content);
 }
 /**
@@ -205,6 +195,32 @@ function showTagCloud($parse=null,$limit=30,$sort='mid',$desc=0){
         }
     }
     echo $output;
+}
+function ismobile() {
+    if (isset ($_SERVER['HTTP_X_WAP_PROFILE']))
+        return true;
+
+    if(isset ($_SERVER['HTTP_CLIENT']) &&'PhoneClient'==$_SERVER['HTTP_CLIENT'])
+        return true;
+
+    if (isset ($_SERVER['HTTP_VIA']))
+        return stristr($_SERVER['HTTP_VIA'], 'wap') ? true : false;
+
+    if (isset ($_SERVER['HTTP_USER_AGENT'])) {
+        $clientkeywords = array(
+            'nokia','sony','ericsson','mot','samsung','htc','sgh','lg','sharp','sie-','philips','panasonic','alcatel','lenovo','iphone','ipod','blackberry','meizu','android','netfront','symbian','ucweb','windowsce','palm','operamini','operamobi','openwave','nexusone','cldc','midp','wap','mobile'
+        );
+        if (preg_match("/(" . implode('|', $clientkeywords) . ")/i", strtolower($_SERVER['HTTP_USER_AGENT']))) {
+            return true;
+        }
+    }
+
+    if (isset ($_SERVER['HTTP_ACCEPT'])) {
+        if ((strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') !== false) && (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === false || (strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') < strpos($_SERVER['HTTP_ACCEPT'], 'text/html')))) {
+            return true;
+        }
+    }
+    return false;
 }
 /**
  * 重写评论显示函数

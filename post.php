@@ -4,17 +4,14 @@
     <article class="post preview" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="post-author clearfix">
 			<a class="fl" href="<?php $this->author->permalink(); ?>" title="<?php $this->author(); ?>"><img class="avatar" width="32" src="<?php echo gravatarUrl($this->author->mail,32); ?>" alt="" /></a>
-			<a href="<?php $this->author->permalink(); ?>"><?php $this->author(); ?></a><?php _e('发布在');?><?php $this->category(','); ?>
-			<span><?php $this->date('Y.m.d H:i:s'); ?></span>
+			<a href="<?php $this->author->permalink(); ?>"><?php $this->author(); ?></a>
+			<span title="<?php _e('最后编辑于');echo date('Y.m.d H:i:s',$this->modified); ?>"><?php $this->date('Y.m.d H:i:s'); ?></span>
 		</div>
         <h1 class="post-title" itemprop="name headline"><?php $this->title() ?></h1>
         <ul class="post-meta clearfix">
             <li><?php _e('阅读');$this->viewsNum(); ?></li>
-            <li><a href="<?php $this->permalink() ?>#comments"><?php $this->commentsNum('评论%d'); ?></a></li>
+            <li><?php $this->commentsNum('评论%d'); ?></li>
 			<li><?php _e('喜欢');$this->likesNum(); ?></li>
-            <li class="post-qrcode"><i class="fa fa-qrcode"></i>
-                <div id="qrcode-img"></div>
-            </li>
         </ul>
         <div class="post-content" itemprop="articleBody">
             <?php parseContent($this); ?>
