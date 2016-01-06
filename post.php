@@ -17,7 +17,7 @@
             <?php parseContent($this); ?>
         </div>
 		<div class="post-tool">
-			<span class="post-like"><a class="btn s3 btn-like" data-cid="<?php $this->cid();?>" href="#"><i class="fa fa-thumbs-up"></i> <?php _e('赞'); ?> <span class="post-likesnum"><?php $this->likesNum();?></span></a></span>
+			<span class="post-like"><a class="btn s3 btn-like" data-cid="<?php $this->cid();?>" data-num="<?php $this->likesNum();?>" href="#"><i class="fa fa-thumbs-up"></i> <?php _e('赞'); ?> <span class="post-likes-num"><?php $this->likesNum();?></span></a></span>
 			<span class="post-share"><a class="btn s3 btn-dialog" data-dialog="#dialog-share" href="#"><i class="fa fa-share-alt"></i> <?php _e('分享'); ?></a></span>
 			<span class="post-donate">
 				<a href="#" class="btn s3 btn-dialog" data-dialog="#dialog-donate"><?php _e('赏'); ?></a>
