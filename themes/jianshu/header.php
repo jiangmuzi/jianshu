@@ -25,7 +25,6 @@ if(!function_exists('getReadMode')) include_once('functions.php');
     <script src="//cdnjscn.b0.upaiyun.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 	<script src="<?php $this->options->themeUrl('js/common.js'); ?>"></script>
-	<?php if($this->options->siteStat):?><?php $this->options->siteStat();?><?php endif;?>
     <?php $this->header('generator=&template=&pingback=&xmlrpc=&wlw='); ?>
 </head>
 <body class="<?php getReadMode();if($this->is('single')): ?> single<?php endif; ?>">

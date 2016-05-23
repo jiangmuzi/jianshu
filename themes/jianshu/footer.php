@@ -15,6 +15,7 @@
 			<em>·</em> <a href="http://www.typecho.org" target="_blank">Typecho</a>
 			<?php if($this->options->icpNum):?> <em>·</em> <a href="http://www.miitbeian.gov.cn/" target="blank"><?php $this->options->icpNum();?></a><?php endif;?>
 			<em>·</em> Theme By <a href="http://lixianhua.com/" target="_blank"><?php _e('绛木子'); ?></a>
+			<span><?php if($this->options->siteStat):?><?php $this->options->siteStat();?><?php endif;?></span>
 		</p>
 	</div>
 </footer><!-- end #footer -->

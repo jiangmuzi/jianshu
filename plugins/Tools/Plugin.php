@@ -212,6 +212,67 @@ class Tools_Plugin implements Typecho_Plugin_Interface
 	}
 	
 	/**
+	 * 标签云
+	 * @params string 配置字符串
+	 * @format string 格式化输出
+	 * @return void
+	 */
+	public static function tagCloud($params=null,$format='<a href="{permalink}" style="{fontsize};{color};" title="{count}篇文章">{name}</a>'){
+	
+		Typecho_Widget::widget('Widget_Metas_Tag_Cloud', $params)->to($tags);
+		
+		
+		$list = $counts = array();
+		while($tags->next()){
+			$list[] = array(
+				'mid'=>$tags->mid,
+				'name'=>$tags->name,
+				'permalink'=>$tags->permalink,
+				'count'=>$tags->count,
+			);
+			$counts[] = $tags->count;
+		}
+		if(empty($counts)){
+			echo '暂无标签';
+			return;
+		}
+		$min_count = min($counts);
+		$spread = max($counts) - $min_count;
+		
+		$params = new Typecho_Config($params);
+		$params->setDefault(array(
+			'smallest' => 8, 'largest' => 22, 'unit' => 'pt'
+		));
+		
+		if ( $spread <= 0 ){
+			$spread = 1;
+		}
+			
+		$font_spread = $params->largest - $params->smallest;
+		if ( $font_spread < 0 )
+			$font_spread = 1;
+		$font_step = $font_spread / $spread;
+		$html = '';
+		foreach($list as $tag){
+			$color = 'color:#'.self::randColor();
+			$fontsize = 'font-size:'.( $params->smallest + (( $tag['count'] - $min_count ) * $font_step) ).$params->unit;
+			$html .= str_replace(array('{name}','{permalink}','{count}','{fontsize}','{color}'),
+			array($tag['name'],$tag['permalink'],$tag['count'],$fontsize,$color),$format);
+		}
+		echo $html;
+	}
+	
+	/**
+	 * 生成随机颜色值
+	 * @return string
+	 */
+	public static function randColor(){
+		$colors=array('ff3300','0517c2','0fc317','e7cc17','601165','ffb900','f74e1e','00a4ef','7fba00');
+		return $colors[rand(0,8)];
+		//return rand(120,200).','.rand(120,200).','.rand(120,200);
+	}
+	
+	/**
      * 增加浏览量
      * @params Widget_Archive   $archive
      * @return void
