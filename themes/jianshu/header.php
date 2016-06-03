@@ -99,7 +99,7 @@ if(!function_exists('getReadMode')) include_once('functions.php');
 			<?php endif; ?>
 		</li>
 		<?php endif; ?>
-		<?php if($this->is('archive')):?>
+		<?php if($this->is('archive') && !empty($this->getArchiveTitle())):?>
 		<li class="active">
 			<a href="javascript:jBlog.goTop();"><?php _e($this->getArchiveTitle()); ?></a>
 		</li>

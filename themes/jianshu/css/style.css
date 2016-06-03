@@ -2722,6 +2722,9 @@ li.comment-body > .comment-meta > .comment-meta-reply {
 	padding-left:42px;
     word-break:break-word;
 }
+.comment-content img{
+	max-width:100%;
+}
 .comment-content p{
 	margin:0;
 }
