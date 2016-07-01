@@ -78,7 +78,7 @@ class Tools_Action extends Typecho_Widget implements Widget_Interface_Do{
 			$size = array($width,$height);
 		}
 
-		$path = __TYPECHO_ROOT_DIR__.'/'.$url;
+		$path = __TYPECHO_ROOT_DIR__ . $url;
 
 		if(!is_file($path)) exit;
 		

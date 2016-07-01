@@ -4,7 +4,7 @@
  * 
  * @package JianShu
  * @author 绛木子
- * @version 1.1.0
+ * @version 1.2.0
  * @link http://lixianhua.com
  *
  */
