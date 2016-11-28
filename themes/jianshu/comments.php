@@ -15,11 +15,14 @@
         <div class="cancel-comment-reply">
         <?php $comments->cancelReply(); ?>
         </div>
-    
     	<h3 id="response"><?php _e('添加新评论'); ?></h3>
     	<form method="post" action="<?php $this->commentUrl() ?>" id="comment-form" role="form">
             <p>
-				<?php //TeComment_Plugin::showTool(); //未安装评论增强插件时屏蔽?>
+				<?php //未安装评论增强插件时屏蔽
+				if(pluginExists('TeComment')):?>
+				<?php TeComment_Plugin::showTool(); ?>
+				<?php endif;?>
+				
                 <textarea rows="4" cols="50" name="text" id="textarea" class="textarea" required placeholder="如评论不显示，请等候管理员人工审核"><?php $this->remember('text'); ?></textarea>
             </p>
 			<div class="comment-fields">

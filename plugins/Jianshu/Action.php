@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: 绛木子 <master@lixianhua.com>
 // +----------------------------------------------------------------------
-class Tools_Action extends Typecho_Widget implements Widget_Interface_Do{
+class Jianshu_Action extends Typecho_Widget implements Widget_Interface_Do{
 
 	private $options;
 
@@ -16,7 +16,7 @@ class Tools_Action extends Typecho_Widget implements Widget_Interface_Do{
 	 * 需要给tmp目录权限
 	 */
 	public function sitemap(){
-		$xmlFile = __TYPECHO_ROOT_DIR__.__TYPECHO_PLUGIN_DIR__.'/Tools/tmp/baidu_sitemap.xml';
+		$xmlFile = __TYPECHO_ROOT_DIR__.__TYPECHO_PLUGIN_DIR__.'/Jianshu/tmp/sitemap.xml';
 		$xml = @file_get_contents($xmlFile);
 		if(!$xml || @filemtime($xmlFile) > time()){
 			$stat = Typecho_Widget::widget('Widget_Stat');
@@ -72,7 +72,7 @@ class Tools_Action extends Typecho_Widget implements Widget_Interface_Do{
 			$size = explode('x',$size);
 			$size[1] = isset($size[1]) ? $size[1] : $size[0];
 		}else{
-			$options = Typecho_Widget::widget('Widget_Options')->plugin('Tools');
+			$options = Typecho_Widget::widget('Widget_Options')->plugin('Jianshu');
 			$width = $options->thumbnailwidth;
 			$height = $options->thumbnailheight;
 			$size = array($width,$height);

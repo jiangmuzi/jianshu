@@ -12,10 +12,12 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
         <div class="post-header">
 			<h2 class="post-title"><?php $this->title() ?></h2>
 		</div>
-        <div class="post-content" itemprop="articleBody">
+        <div class="post-content markdown-body" itemprop="articleBody">
             <?php $this->content(); ?>
 			<ul class="tag-list flinks">
+				<?php if(pluginExists('Links')):?>
 				<?php Links_Plugin::output(null,0,'');?>
+				<?php endif;?>
 			</ul>
         </div>
 		

@@ -2,13 +2,13 @@
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 /**
  * 简书主题配套工具
- * 
- * @package Tools 
+ * 添加浏览数统计、喜欢功能
+ * @package Jianshu 
  * @author 绛木子
  * @version 1.0.0
  * @link http://lixianhua.com
  */
-class Tools_Plugin implements Typecho_Plugin_Interface
+class Jianshu_Plugin implements Typecho_Plugin_Interface
 {
     /**
      * 激活插件方法,如果激活失败,直接抛出异常
@@ -27,19 +27,17 @@ class Tools_Plugin implements Typecho_Plugin_Interface
         if (!array_key_exists('likesNum', $db->fetchRow($db->select()->from('table.contents'))))
             $db->query('ALTER TABLE `'. $prefix .'contents` ADD `likesNum` INT(10) DEFAULT 0;');
 		//增加浏览数
-        Typecho_Plugin::factory('Widget_Archive')->singleHandle = array('Tools_Plugin', 'viewCounter');
+        Typecho_Plugin::factory('Widget_Archive')->singleHandle = array('Jianshu_Plugin', 'viewCounter');
 		//把新增的字段添加到查询中
-        Typecho_Plugin::factory('Widget_Archive')->select = array('Tools_Plugin', 'selectHandle');
-		//压缩页面
-		Typecho_Plugin::factory('Widget_Archive')->afterRender = array('Tools_Plugin', 'compress');
+        Typecho_Plugin::factory('Widget_Archive')->select = array('Jianshu_Plugin', 'selectHandle');
 		//处理内容
-		Typecho_Plugin::factory('Widget_Archive')->beforeRender = array('Tools_Plugin', 'beforeRender');
+		Typecho_Plugin::factory('Widget_Archive')->beforeRender = array('Jianshu_Plugin', 'beforeRender');
 		//处理用户字段
-		Typecho_Plugin::factory('Widget_Abstract_Users')->filter = array('Tools_Plugin', 'filterUser');
-		//工具提供的操作
-		Helper::addAction('tools', 'Tools_Action');
+		Typecho_Plugin::factory('Widget_Abstract_Users')->filter = array('Jianshu_Plugin', 'filterUser');
 		//sitemap
-		Helper::addRoute('baidu_sitemap', '/baidu_sitemap.xml', 'Tools_Action', 'sitemap');
+		Helper::addRoute('sitemap', '/sitemap.xml', 'Jianshu_Action', 'sitemap');
+		//工具提供的操作
+		Helper::addAction('tools', 'Jianshu_Action');
 	}
     
     /**
@@ -52,7 +50,7 @@ class Tools_Plugin implements Typecho_Plugin_Interface
      */
     public static function deactivate(){
 		Helper::removeAction('tools');
-		Helper::removeRoute('baidu_sitemap');
+		Helper::removeRoute('sitemap');
 	}
     
     /**
@@ -64,20 +62,7 @@ class Tools_Plugin implements Typecho_Plugin_Interface
      */
     public static function config(Typecho_Widget_Helper_Form $form){
 		
-		$zip = new Typecho_Widget_Helper_Form_Element_Radio(
-          'zip', array('0' => '不启用', '1' => '启用'), '0',
-          '是否压缩Html', '压缩Html，去除页面空白及注释<br/><span style="color:red;">与系统反垃圾保护冲突，开启时需要关闭反垃圾保护</span>');
-        $form->addInput($zip);
 		
-		$defaultthumbnail = new Typecho_Widget_Helper_Form_Element_Text('defaultthumbnail', NULL, NULL, _t('默认缩略图'), _t('当文章没有图片时显示的缩略图，为空则不显示'));
-        $form->addInput($defaultthumbnail);
-		$thumbnailwidth = new Typecho_Widget_Helper_Form_Element_Text('thumbnailwidth', NULL, 100, _t('缩略图宽度'), _t('缩略图显示的宽度'));
-        $form->addInput($thumbnailwidth);
-        $thumbnailheight = new Typecho_Widget_Helper_Form_Element_Text('thumbnailheight', NULL, 90, _t('缩略图高度'), _t('缩略图显示的高度'));
-        $form->addInput($thumbnailheight);
-		
-		$qiniu = new Typecho_Widget_Helper_Form_Element_Text('qiniu', NULL, NULL, _t('七牛CDN地址'), _t('七牛CDN域名，测试域名或自定义域名，以‘http://’或‘https://’开头'));
-        $form->addInput($qiniu);
 	}
     
     /**
@@ -89,152 +74,11 @@ class Tools_Plugin implements Typecho_Plugin_Interface
      */
     public static function personalConfig(Typecho_Widget_Helper_Form $form){}
 	
-	/**
-	 * 获取gravatar头像地址
-	 *
-	 * @param string $mail
-	 * @param int $size
-	 * @param string $rating
-	 * @param string $default
-	 * @return string
-	 */
-	public static function gravatarUrl($mail, $size=32, $rating=null, $default=null){
-		$url = 'http://gravatar.duoshuo.com';
-		$url .= '/avatar/';
-
-		if (!empty($mail)) {
-			$url .= md5(strtolower(trim($mail)));
-		}
-
-		$url .= '?s=' . $size;
-		$url .= '&amp;r=' . ($rating==null?Typecho_Widget::widget('Widget_Options')->commentsAvatarRating : $rating);
-		$url .= '&amp;d=' . $default;
-
-		return $url;
-	}
-	
-	/**
-	 * 缩略图
-	 */
-	public static function thumbnail($obj,$size=null,$link=false,$pattern='<div class="post-cover"><a href="{permalink}" title="{title}" style="background-image:url({image})"></a></div>'){
-		
-		$image = self::getThumbnail($obj->content,$size);
-
-		if(empty($image)) return;
-		if($link){
-			return $image;
-		}
-		echo str_replace(
-			array('{title}','{image}','{permalink}'),
-			array($obj->title,$image,$obj->permalink),
-			$pattern);
-	}
-	
-	//解析内容，从中获取缩略图
-	public static function getThumbnail($content,$size=null){
-		preg_match_all( "/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/", $content, $matches );
-		$image = '';
-		$isLocal = false;
-		if(isset($matches[1][0])){
-			$image = $matches[1][0];
-			
-			$siteUrl = Typecho_Widget::widget('Widget_Options')->siteUrl;
-			
-			if(strpos($image,$siteUrl)===0){
-				$imgDir = substr($image,strlen($siteUrl)-1);
-
-				if(is_file(__TYPECHO_ROOT_DIR__ . $imgDir)){
-					$image = $imgDir;
-					$isLocal = true;
-				}
-			}
-			
-		}
-		if($isLocal){
-			$options = Typecho_Widget::widget('Widget_Options')->plugin('Tools');
-			if($size==null){
-				$size = array($options->thumbnailwidth,$options->thumbnailheight);
-			}elseif($size=='full'){
-				$size = null;
-			}else{
-				$size = explode('x',$size);
-				$size[1] = (isset($size[1]) && !empty($size[1])) ? $size[1] : $size[0];
-			}
-
-			if(empty($options->qiniu)){
-				$image = self::getLocalImageThumbnail($image,$size);
-			}else{
-				$image = self::getQiniuImageThumbnail($image,$size,$options->qiniu);
-			}
-		}
-		if(empty($image) && empty($options->defaultthumbnail)){
-			return '';
-		}else{
-			$image = empty($image) ? $options->defaultthumbnail : $image;
-		}
-		return $image;
-	}
-	
-	//本地接口生成缩略图
-	private static function getLocalImageThumbnail($url,$size){
-		$siteUrl = Typecho_Widget::widget('Widget_Options')->siteUrl;
-		if(is_null($size)){
-			return Typecho_Common::url($url, $siteUrl);
-		}
-		
-		$index = Typecho_Widget::widget('Widget_Options')->index;
-		$imageApi = Typecho_Common::url('/action/tools', $index);
-		$s = $size[0] . 'x' . $size[1];
-		return $imageApi."?do=image&url={$url}&s={$s}";
-	}
-	
-	//使用七牛CDN生成缩略图
-	private static function getQiniuImageThumbnail($url,$size,$qiniu){
-		$url = substr($url,12);
-		if(!is_null($size)){
-			$url = $url.'?imageView2/4/w/' . $size[0] . '/h/' . $size[1];
-		}
-		$url = Typecho_Common::url($url, $qiniu);
-		return $url;
-	}
-	
-	//压缩页面
-	// 与系统反垃圾保护冲突，开启时需要关闭反垃圾保护
-	public static function compress($archive){
-		$zip = Typecho_Widget::widget('Widget_Options')->plugin('Tools')->zip;
-		
-		
-		
-		if(!$zip) return;
-        $string = ob_get_contents();
-		ob_end_clean();
-
-		$string = str_replace("\r\n", '', $string); //清除换行符
-		$string = str_replace("\n", '', $string); //清除换行符
-		$string = str_replace("\t", '', $string); //清除制表符
-		$pattern = array (
-						"/> *([^ ]*) *</", //去掉注释标记
-						"/[\s]+/",
-						"/<!--[\\w\\W\r\\n]*?-->/",
-						"/\" /",
-						"/ \"/",
-						"'/\*[^*]*\*/'"
-						);
-		$replace = array (
-						">\\1<",
-						" ",
-						"",
-						"\"",
-						"\"",
-						""
-						);
-		$string = preg_replace($pattern, $replace, $string);
-		echo trim($string);
-    }
-	
+	//图片地址替换为七牛CDN
 	public static function beforeRender($contents){
-		$siteUrl = Typecho_Widget::widget('Widget_Options')->siteUrl;
-		$qiniu = Typecho_Widget::widget('Widget_Options')->plugin('Tools')->qiniu;
+		$options = Typecho_Widget::widget('Widget_Options');
+		$siteUrl = $options->siteUrl;
+		$qiniu = $options->qiniu;
 		
 		if(!empty($qiniu)){
 			$local = Typecho_Common::url('/usr/uploads', $siteUrl);
@@ -243,6 +87,7 @@ class Tools_Plugin implements Typecho_Plugin_Interface
 		}
 	}
 	
+	// 获取用户信息
 	public static function filterUser($value,$users){
 		static $_stat = array();
 		if(isset($_stat[$value['uid']])){

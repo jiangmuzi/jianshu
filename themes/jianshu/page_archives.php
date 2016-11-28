@@ -11,7 +11,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
         <div class="post-header">
 			<h2 class="post-title"><?php $this->title() ?></h2>
 		</div>
-        <div class="post-content" itemprop="articleBody">
+        <div class="post-content markdown-body" itemprop="articleBody">
             <?php 
                 $stat = Typecho_Widget::widget('Widget_Stat');
                 Typecho_Widget::widget('Widget_Contents_Post_Recent', 'pageSize='.$stat->publishedPostsNum)->to($archives);

@@ -11,9 +11,9 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
         <div class="post-header">
 			<h2 class="post-title"><?php $this->title() ?></h2>
 		</div>
-        <div class="post-content" itemprop="articleBody">
+        <div class="post-content markdown-body" itemprop="articleBody">
             <ul class="tag-list">
-                <?php Tools_Plugin::tagCloud(null,'<li><a href="{permalink}">{name}({count})</a></li>');?>
+                <?php tagCloud(null,'<li><a href="{permalink}">{name}({count})</a></li>');?>
             </ul>
         </div>
     </article>

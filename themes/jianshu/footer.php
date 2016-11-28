@@ -1,4 +1,5 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
+<?php if(!$this->request->isAjax()) :?>
 	</div><!-- end #main-->
 </div><!-- end #body -->
 <footer class="footer">
@@ -28,11 +29,32 @@
 		jBlog.init({
 			url:'<?php $this->options->siteUrl();?>',
 			action:'<?php $this->options->index('action');?>',
+			usePjax:'<?php $this->options->usePjax();?>',
 			current:'<?php echo $this->getArchiveType();?>',
 			prefix:'<?php echo md5($this->options->rootUrl);?>',
+			respondId:'<?php $this->respondId(); ?>',
+			donateImg:'<?php $this->options->donateImg();?>',
 		});
 	});
 </script>
 <?php $this->footer(); ?>
 </body>
 </html>
+<?php else: ?>
+	<script id="jBlog-params">
+		jBlog.initPageParams({
+			current:'<?php echo $this->getArchiveType();?>',
+			respondId:'<?php $this->respondId(); ?>',
+			title:'<?php $this->archiveTitle(array(
+            'category'  =>  _t('分类：%s'),
+            'search'    =>  _t('搜索：%s'),
+            'tag'       =>  _t('标签：%s'),
+            'author'    =>  _t('%s 发布的文章')
+        ), '', ' - '); $this->options->title(); ?>',
+		});
+		<?php if(pluginExists('TeComment')):?>
+		TeCmt.init();
+		<?php endif;?>
+		<?php echo getAntiSpam($this);?>
+	</script>
+<?php endif; ?>
