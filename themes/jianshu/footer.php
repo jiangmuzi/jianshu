@@ -57,4 +57,5 @@
 		<?php endif;?>
 		<?php echo getAntiSpam($this);?>
 	</script>
+	<?php if($this->options->siteStat):?><?php $this->options->siteStat();?><?php endif;?>
 <?php endif; ?>
