@@ -1,0 +1,268 @@
+.markdown {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 16px;
+	line-height: 1.5;
+	word-wrap: break-word
+}
+
+.markdown::before {
+	display: table;
+	content: ""
+}
+
+.markdown::after {
+	display: table;
+	clear: both;
+	content: ""
+}
+
+.markdown>*:first-child {
+	margin-top: 0 !important
+}
+
+.markdown>*:last-child {
+	margin-bottom: 0 !important
+}
+
+.markdown a:not([href]) {
+	color: inherit;
+	text-decoration: none
+}
+
+.markdown p,.markdown blockquote,.markdown ul,.markdown ol,.markdown dl,.markdown table,.markdown pre {
+	margin-top: 0;
+	margin-bottom: 16px
+}
+
+.markdown hr {
+	height: 0.1em;
+	padding: 0;
+	margin: 24px 0;
+	background-color: #e1e4e8;
+	border: 0
+}
+
+.markdown blockquote {
+	padding: 0.8em 1.5em;
+	_color: #6a737d;
+	background-color: #f7f7f7;
+	border-left: 0.25em solid #b4b4b4
+}
+
+.markdown blockquote>:first-child {
+	margin-top: 0
+}
+
+.markdown blockquote>:last-child {
+	margin-bottom: 0
+}
+
+.markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6 {
+	margin-top: 24px;
+	margin-bottom: 16px;
+	font-weight: 600;
+	line-height: 1.25
+}
+
+.markdown h1 tt,.markdown h1 code,.markdown h2 tt,.markdown h2 code,.markdown h3 tt,.markdown h3 code,.markdown h4 tt,.markdown h4 code,.markdown h5 tt,.markdown h5 code,.markdown h6 tt,.markdown h6 code {
+	font-size: inherit
+}
+
+.markdown h1 {
+	padding-bottom: 0.3em;
+	font-size: 2em;
+	border-bottom: 1px solid #eaecef
+}
+
+.markdown h2 {
+	padding-bottom: 0.3em;
+	font-size: 1.5em;
+	border-bottom: 1px solid #eaecef
+}
+
+.markdown h3 {
+	font-size: 1.25em
+}
+
+.markdown h4 {
+	font-size: 1em
+}
+
+.markdown h5 {
+	font-size: 0.875em
+}
+
+.markdown h6 {
+	font-size: 0.85em;
+	color: #6a737d
+}
+
+.markdown ul,.markdown ol {
+	padding-left: 2em
+}
+
+.markdown ul ul,.markdown ul ol,.markdown ol ol,.markdown ol ul {
+	margin-top: 0;
+	margin-bottom: 0
+}
+
+.markdown li>p {
+	margin-top: 16px
+}
+
+.markdown li+li {
+	margin-top: 0.25em
+}
+
+.markdown dl {
+	padding: 0
+}
+
+.markdown dl dt {
+	padding: 0;
+	margin-top: 16px;
+	font-size: 1em;
+	font-style: italic;
+	font-weight: 600
+}
+
+.markdown dl dd {
+	padding: 0 16px;
+	margin-bottom: 16px
+}
+
+.markdown table {
+	display: block;
+	width: 100%;
+	overflow: auto
+}
+
+.markdown table th {
+	font-weight: 600
+}
+
+.markdown table th,.markdown table td {
+	padding: 6px 13px;
+	border: 1px solid #dfe2e5
+}
+
+.markdown table tr {
+	background-color: #fff;
+	border-top: 1px solid #c6cbd1
+}
+
+.markdown table tr:nth-child(2n) {
+	background-color: #f6f8fa
+}
+
+.markdown table img {
+	background-color: transparent
+}
+
+.markdown img {
+	max-width: 100%;
+	box-sizing: content-box;
+	background-color: #fff
+}
+
+.markdown img[align=right] {
+	padding-left: 20px
+}
+
+.markdown img[align=left] {
+	padding-right: 20px
+}
+
+.markdown code,.markdown tt {
+	padding: 0;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	margin: 0;
+	font-size: 85%;
+	background-color: rgba(27,31,35,0.05);
+	border-radius: 3px
+}
+
+.markdown code::before,.markdown code::after,.markdown tt::before,.markdown tt::after {
+	letter-spacing: -0.2em;
+	content: "\00a0"
+}
+
+.markdown code br,.markdown tt br {
+	display: none
+}
+
+.markdown del code {
+	text-decoration: inherit
+}
+
+.markdown pre {
+	word-wrap: normal
+}
+
+.markdown pre>code {
+	padding: 0;
+	margin: 0;
+	font-size: 100%;
+	word-break: normal;
+	white-space: pre;
+	background: transparent;
+	border: 0
+}
+.markdown pre code,.markdown pre tt {
+	display: inline;
+	max-width: auto;
+	padding: 0;
+	margin: 0;
+	overflow: visible;
+	line-height: inherit;
+	word-wrap: normal;
+	background-color: transparent;
+	border: 0
+}
+.markdown pre code::before,.markdown pre code::after,.markdown pre tt::before,.markdown pre tt::after {
+	content: normal
+}
+/* Highlight */
+.hljs,pre {
+	background: #f6f6f6;
+	color: #657b83;
+	-webkit-text-size-adjust: none
+}
+
+.diff .hljs-header,.hljs-comment,.hljs-doctype,.hljs-pi,.lisp .hljs-string {
+	color: #93a1a1
+}
+
+.lang-css .hljs-tag,.hljs-addition,.hljs-keyword,.hljs-request,.hljs-status,.hljs-winutils,.method,.nginx .hljs-title {
+	color: #859900
+}
+
+.hljs-command,.hljs-doctag,.hljs-hexcolor,.hljs-link_url,.hljs-number,.hljs-regexp,.hljs-rule .hljs-value,.hljs-string,.hljs-tag .hljs-value,.tex .hljs-formula {
+	color: #2aa198
+}
+
+.lang-css .hljs-function,.hljs-built_in,.hljs-chunk,.hljs-decorator,.hljs-id,.hljs-identifier,.hljs-localvars,.hljs-name,.hljs-title,.vhdl .hljs-literal {
+	color: #268bd2
+}
+
+.hljs-attribute,.hljs-class .hljs-title,.hljs-constant,.hljs-link_reference,.hljs-parent,.hljs-type,.hljs-variable,.lisp .hljs-body,.smalltalk .hljs-number {
+	color: #b58900
+}
+
+.lang-css .hljs-pseudo,.diff .hljs-change,.hljs-attr_selector,.hljs-cdata,.hljs-header,.hljs-pragma,.hljs-preprocessor,.hljs-preprocessor .hljs-keyword,.hljs-shebang,.hljs-special,.hljs-subst,.hljs-symbol,.hljs-symbol .hljs-string {
+	color: #cb4b16
+}
+
+.hljs-deletion,.hljs-important {
+	color: #dc322f
+}
+
+.hljs-link_label {
+	color: #6c71c4
+}
+
+.lang-tex .hljs-formula {
+	background: #eee8d5
+}
+

@@ -1,6 +1,15 @@
 # Jianshu theme for typecho
 
-主题包括配套插件，未开启插件时，不影响使用，但浏览数统计功能、喜欢功能、本地图片缩略图功能无法使用
+主题依赖插件：
+- Textends：https://github.com/jiangmuzi/Textends
+- TeComment：https://github.com/jiangmuzi/TeComment
+- TeMenu：http://lixianhua.com/temenu_plugin_for_typecho.html (可自行剔除依赖)
+
+开始安装主题前，请先安装依赖插件
+
+
+~~主题包括配套插件，未开启插件时，不影响使用，但浏览数统计功能、喜欢功能、本地图片缩略图功能无法使用~~
+
 ## 开始安装
 
 1. 切换到默认主题
